@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import WeatherIndicatorComponent from './WeatherIndicatorComponent'
 
-import { formApiRequestUrl } from '../util'
+import { formApiRequestUrl, collectForecastResults } from '../util'
 
 export default class MainContentCardComponent extends React.Component {
   static propTypes = {
@@ -34,48 +34,9 @@ export default class MainContentCardComponent extends React.Component {
     }
   }
 
-  _filterForecastResults = (forecastResults) => {
-    const { list } = forecastResults,
-          NUM_DAYS = 4 /* number of days which to stop collecting results at */
-
-    let date = new Date() /* Date we'll use to iterate through the forecast results with */
-
-    date.setHours(0, 0, 0, 0)
-
-    let results = []
-
-    for (let item of list) {
-      const match = /^(\d+)-(\d+)-(\d+)/.exec(item.dt_txt)
-
-      if (match === null) {
-        throw Error(`Error parsing forecast datetime: ${item.dt_txt} could not be parsed with RegExp.`)
-      }
-
-      const itemYear = Number(match[1]),
-            itemMonth = Number(match[2]),
-            itemDay = Number(match[3]),
-            itemDate = new Date(itemYear, itemMonth, itemDay)
-
-      if (itemDate.getTime() <= date.getTime()) {
-        continue
-      }
-
-      date = itemDate
-
-      results.push(item)
-
-      if (results.length === NUM_DAYS) {
-        break
-      }
-    }
-
-    return results
-  }
-
   _updateWeatherData = (props) => {
     const currentApiRequestUrl = formApiRequestUrl(props.city),
           forecastApiRequestUrl = formApiRequestUrl(props.city, false)
-
 
     this.setState({
       currentResults: null,
@@ -89,7 +50,7 @@ export default class MainContentCardComponent extends React.Component {
         .then(([currentResults, forecastResults]) => {
           this.setState({
             currentResults,
-            forecastResults: this._filterForecastResults(forecastResults)
+            forecastResults: collectForecastResults(forecastResults)
           })
         })
         .catch((err) => {
@@ -99,14 +60,6 @@ export default class MainContentCardComponent extends React.Component {
   }
 
   _renderCurrentWeather() {
-    if (!this.state.currentResults) {
-      return (
-        <div className='c-main-content__current-weather'>
-          Loading...
-        </div>
-      )
-    }
-
     return (
       <div className='c-main-content__current-weather'>
         <WeatherIndicatorComponent
@@ -118,14 +71,6 @@ export default class MainContentCardComponent extends React.Component {
   }
 
   _renderForecast() {
-    if (!this.state.forecastResults || this.state.forecastResults.length === 0) {
-      return (
-        <div className='c-main-content__forecast'>
-          Loading...
-        </div>
-      )
-    }
-
     return (
       <div className='c-main-content__forecast'>
         {this.state.forecastResults.map((result, index) => (
@@ -140,6 +85,16 @@ export default class MainContentCardComponent extends React.Component {
   }
   
   render() {
+    if (!this.state.currentResults) {
+      return (
+        <div className='c-main-content'>
+          <div className='c-main-content__loading'>
+            Loading...
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className='c-main-content'>
         <div className='c-main-content__card'>

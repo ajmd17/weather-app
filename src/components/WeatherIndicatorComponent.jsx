@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { fahrenheitToCelsius } from '../util'
+import WeatherIconComponent from './WeatherIconComponent'
+
+import { weatherType } from '../util'
 
 export default class WeatherIndicatorComponent extends React.Component {
   static propTypes = {
@@ -16,17 +18,21 @@ export default class WeatherIndicatorComponent extends React.Component {
 
   get _daysOfWeek() {
     return [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday'
+      'Sun',
+      'Mon',
+      'Tue',
+      'Wed',
+      'Thur',
+      'Fri',
+      'Sat'
     ]
   }
 
   get _dateObject() {
+    if (this.props.weatherResult.dt_txt) {
+      return new Date(this.props.weatherResult.dt_txt)
+    }
+
     return new Date(this.props.weatherResult.dt * 1000)
   }
 
@@ -37,7 +43,12 @@ export default class WeatherIndicatorComponent extends React.Component {
 
     tomorrow.setDate(tomorrow.getDate() + 1)
 
+    console.log('dateobject = ', dateObject)
+    console.log('today = ', today)
+    console.log(this.props.weatherResult.dt_txt)
+
     if (dateObject.getDate() === today.getDate()) {
+      console.log('today')
       return 'Today'
     }
 
@@ -57,7 +68,11 @@ export default class WeatherIndicatorComponent extends React.Component {
   }
 
   _renderIcon() {
-    return null
+    return (
+      <WeatherIconComponent
+        weatherResult={this.props.weatherResult}
+      />
+    )
   }
 
   _renderWeatherInfo() {
@@ -65,6 +80,9 @@ export default class WeatherIndicatorComponent extends React.Component {
       <div className='c-weather-indicator__info'>
         <div className='c-weather-indicator__temperature'>
           {Math.round(this.props.weatherResult.main.temp)} °
+        </div>
+        <div className='c-weather-indicator__subtitle'>
+          {weatherType(this.props.weatherResult)}
         </div>
       </div>
     )

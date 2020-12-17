@@ -16,19 +16,39 @@
     flex-direction: column;
   }
 
+  &__loading {
+    font-size: 1em;
+  }
+
   &__current-weather {
     flex: 0.667;
 
     .c-weather-indicator {
       margin-bottom: 0;
+      padding-top: 40px;
+      padding-bottom: 40px;
+
+      &__date {
+        margin-bottom: 10px;
+      }
 
       &__result {
         flex-direction: row;
         justify-content: center;
+
+        img {
+          height: 80px;
+          margin-right: 20px;
+        }
       }
 
       &__temperature {
-        font-size: 2.5em;
+        font-size: 2.8em;
+      }
+
+      &__subtitle {
+        font-size: 1.4em;
+        font-weight: 300;
       }
     }
   }
@@ -42,6 +62,10 @@
     .c-weather-indicator {
       &__date {
         font-size: 1.2em;
+      }
+
+      &__subtitle {
+        display: none;
       }
     }
   }
