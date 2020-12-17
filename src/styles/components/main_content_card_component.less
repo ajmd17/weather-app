@@ -25,25 +25,29 @@
 
     .c-weather-indicator {
       margin-bottom: 0;
-      padding-top: 40px;
-      padding-bottom: 40px;
+      padding-top: 35px;
+      padding-bottom: 50px;
 
       &__date {
-        margin-bottom: 10px;
+        margin-bottom: 30px;
       }
 
       &__result {
         flex-direction: row;
         justify-content: center;
 
-        img {
-          height: 80px;
+        .c-weather-icon {
           margin-right: 20px;
+
+          img {
+            width: 80px;
+          }
         }
       }
 
       &__temperature {
-        font-size: 2.8em;
+        font-size: 4em;
+        line-height: 0.8;
       }
 
       &__subtitle {
@@ -57,7 +61,7 @@
     flex: 0.334;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
     .c-weather-indicator {
       &__date {
@@ -67,6 +71,14 @@
       &__subtitle {
         display: none;
       }
+
+      &:not(:last-child) {
+        margin-right: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
     }
   }
 }

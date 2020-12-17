@@ -43,18 +43,13 @@ export default class WeatherIndicatorComponent extends React.Component {
 
     tomorrow.setDate(tomorrow.getDate() + 1)
 
-    console.log('dateobject = ', dateObject)
-    console.log('today = ', today)
-    console.log(this.props.weatherResult.dt_txt)
-
     if (dateObject.getDate() === today.getDate()) {
-      console.log('today')
       return 'Today'
     }
 
-    if (dateObject.getDate() === tomorrow.getDate()) {
-      return 'Tomorrow'
-    }
+    // if (dateObject.getDate() === tomorrow.getDate()) {
+    //   return 'Tomorrow'
+    // }
 
     return this._daysOfWeek[dateObject.getDay()]
   }

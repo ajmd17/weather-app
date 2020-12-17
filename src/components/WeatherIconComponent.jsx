@@ -38,7 +38,9 @@ export default class WeatherIconComponent extends React.Component {
   
   render() {
     return (
-      <img src={`img/${this._bestIcon}.png`} />
+      <div className='c-weather-icon'>
+        <img src={`img/${this._bestIcon}.png`} />
+      </div>
     )
   }
 }
