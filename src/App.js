@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import CitySelectorHeaderComponent from './components/CitySelectorHeaderComponent'
+import MainContentCardComponent from './components/MainContentCardComponent'
+
+import cities from './data/cities'
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      selectedCityIndex: 0
+    }
+  }
+
+  _onSelectedCityChange = (city, index) => {
+    this.setState({
+      selectedCityIndex: index
+    })
+  }
+
+  get _currentCity() {
+    if (this.state.selectedCityIndex === -1) {
+      return null
+    }
+
+    return cities[this.state.selectedCityIndex]
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <CitySelectorHeaderComponent
+          cities={cities}
+          selectedCityIndex={this.state.selectedCityIndex}
+          onSelectedCityChange={this._onSelectedCityChange}
+        />
+
+        <MainContentCardComponent
+          city={this._currentCity}
+        />
+      </div>
+    )
+  }
 }
 
-export default App;

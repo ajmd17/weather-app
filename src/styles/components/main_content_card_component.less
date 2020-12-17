@@ -1,0 +1,48 @@
+&-main-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  &__card {
+    background: #fff;
+    box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.05);
+    padding: 0px;
+    border-radius: 8px;
+  }
+
+  &__sections {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__current-weather {
+    flex: 0.667;
+
+    .c-weather-indicator {
+      margin-bottom: 0;
+
+      &__result {
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      &__temperature {
+        font-size: 2.5em;
+      }
+    }
+  }
+
+  &__forecast {
+    flex: 0.334;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    .c-weather-indicator {
+      &__date {
+        font-size: 1.2em;
+      }
+    }
+  }
+}

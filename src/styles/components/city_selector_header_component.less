@@ -1,0 +1,21 @@
+&-city-selector-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  padding: 1em 0;
+  width: 600px;
+  margin: 0 auto;
+
+  &__option {
+    font-weight: 300;
+    text-decoration: none;
+    color: @link-color;
+  }
+
+  &__option--active {
+    font-weight: 700;
+    color: @link-color--active;
+  }
+}
