@@ -72,8 +72,10 @@
         display: none;
       }
 
-      &:not(:last-child) {
-        margin-right: 0;
+      @media (min-width: 768px) {
+        &:not(:last-child) {
+          margin-right: 0;
+        }
       }
     }
 
